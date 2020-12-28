@@ -13,10 +13,14 @@ class Validator
 
     def validate_password(password)
       @errors << 'Password length too small' if password.length < 6
+      @errors << 'Password has no digits' if password[/\d/].nil?
+      @errors << 'Password has no lowercase character' if password[/[A-Z]/].nil?
+      @errors << 'Password has no uppercase character' if password[/[a-z]/].nil?
     end
 
     def redis
-      Redis.new(host: 'redis', port: 6379)
+      host = Rails.env.test? ? 'localhost' : 'redis'
+      Redis.new(host: host, port: 6379)
     end
   end
 end

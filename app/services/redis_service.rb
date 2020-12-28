@@ -17,7 +17,8 @@ class RedisService
     end
 
     def redis
-      Redis.new(host: 'redis', port: 6379)
+      host = Rails.env.test? ? 'localhost' : 'redis'
+      Redis.new(host: host, port: 6379)
     end
   end
 end

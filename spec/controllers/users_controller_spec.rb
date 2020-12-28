@@ -6,8 +6,8 @@ RSpec.describe Api::UsersController , type: :controller do
     let(:response_body) { JSON.parse(response.body) }
 
     context 'User creation successfull' do
-      let(:user_params1) { { user: { 'username': 'test', 'password': '1234578' } } }
-      let(:user_params2) { { user: { 'username': 'test2', 'password': '1234578' } } }
+      let(:user_params1) { { user: { 'username': 'test', 'password': '123aA4578' } } }
+      let(:user_params2) { { user: { 'username': 'test2', 'password': '12aA34578' } } }
 
       it 'returns http success' do
         request.headers['Content-Type'] = 'application/json'
@@ -47,13 +47,13 @@ RSpec.describe Api::UsersController , type: :controller do
         post :create, params: user_params2
 
         bcrypt_obj = BCrypt::Password.new(Redis.new.get('test2'))
-        expect(bcrypt_obj == '1234578').to be true
+        expect(bcrypt_obj == '12aA34578').to be true
       end
     end
 
     context 'User creation unsuccessfull' do
       context 'Password length is too small' do
-        let(:user_params) { { user: { 'username': 'test5', 'password': '4578' } } }
+        let(:user_params) { { user: { 'username': 'test5', 'password': '4aA8' } } }
 
         it 'returns status 422' do
           request.headers['Content-Type'] = 'application/json'
@@ -73,7 +73,7 @@ RSpec.describe Api::UsersController , type: :controller do
       end
 
       context 'User already exist' do
-        let(:user_params) { { user: { 'username': 'test5', 'password': '4578888' } } }
+        let(:user_params) { { user: { 'username': 'test5', 'password': '45aA78888' } } }
 
         it 'returns status 422' do
           request.headers['Content-Type'] = 'application/json'
@@ -120,7 +120,7 @@ RSpec.describe Api::UsersController , type: :controller do
   describe 'post #login' do
     let(:response_body) { JSON.parse(response.body) }
     context 'Successfull' do
-      let(:user_params) { { user: { 'username': 'test8', 'password': '4578888' } } }
+      let(:user_params) { { user: { 'username': 'test8', 'password': '45aA78888' } } }
       it 'returns http success' do
         request.headers['Content-Type'] = 'application/json'
         request.headers['HTTP_API_KEY'] = 'f294440ff51973cc255e908b8dac234a931c8494'
@@ -151,7 +151,7 @@ RSpec.describe Api::UsersController , type: :controller do
 
     context 'Unsuccessfull' do
       context 'wrong username/password' do
-        let(:user_params) { { user: { 'username': 'test8', 'password': '4578888' } } }
+        let(:user_params) { { user: { 'username': 'test8', 'password': '45aA78888' } } }
         let(:user_params1) { { user: { 'username': 'test8', 'password': '5555555' } } }
         it 'returns http 401' do
           request.headers['Content-Type'] = 'application/json'
